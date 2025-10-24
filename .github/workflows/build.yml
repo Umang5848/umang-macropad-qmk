@@ -11,7 +11,8 @@ jobs:
         # Define the path to your keyboard within the 'keyboards' directory structure QMK expects
         # Since your files are in the root of YOUR repo, checked out to 'users/YourUsername',
         # the path QMK needs is 'users/YourUsername'.
-        keyboard: [users/${{ github.actor }}] # Uses your GitHub username automatically
+        keyboard:
+          - users/${{ github.actor }} # Uses your GitHub username automatically
 
     steps:
       - name: Checkout QMK Firmware
