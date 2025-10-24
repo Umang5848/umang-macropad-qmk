@@ -10,7 +10,7 @@ jobs:
       matrix:
         # 🛑 FIX: Define the actual keyboard folder names within your user directory
         keyboard_folder:
-          - <YOUR_KEYBOARD_FOLDER_NAME> # Example: 'lily58' or 'gmmk'
+         - adm58 # Example: 'lily58' or 'gmmk'
           # You can add more keyboard folders here if you have them
 
     steps:
