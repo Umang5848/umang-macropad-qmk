@@ -8,35 +8,35 @@ jobs:
     container: ghcr.io/qmk/qmk_cli
     strategy:
       matrix:
-        # Define the path to your keyboard within the 'keyboards' directory structure QMK expects
-        # Since your files are in the root of YOUR repo, checked out to 'users/YourUsername',
-        # the path QMK needs is 'users/YourUsername'.
-        keyboard:
-          - users/${{ github.actor }} # Uses your GitHub username automatically
+        # 🛑 FIX: Define the actual keyboard folder names within your user directory
+        keyboard_folder:
+          - <YOUR_KEYBOARD_FOLDER_NAME> # Example: 'lily58' or 'gmmk'
+          # You can add more keyboard folders here if you have them
 
     steps:
       - name: Checkout QMK Firmware
-        uses: actions/checkout@v4 # Use latest checkout action
+        uses: actions/checkout@v4
         with:
           repository: qmk/qmk_firmware
           submodules: recursive
 
       - name: Checkout userspace (Your Repo)
-        uses: actions/checkout@v4 # Use latest checkout action
+        uses: actions/checkout@v4
         with:
-          path: users/${{ github.actor }} # Checks out your repo into the correct 'users' subdirectory
+          # This correctly places your repo content into qmk_firmware/users/Umang5848/
+          path: users/${{ github.actor }} 
 
       - name: Build firmware with VIAL
-        # The '-kb' path tells QMK where to find your config.h, rules.mk etc.
-        # The '-km vial' tells QMK to build the VIAL-enabled keymap.
-        run: qmk compile -kb ${{ matrix.keyboard }} -km vial
+        # ✅ FIX APPLIED: Combines the username and the keyboard folder name
+        # Correct format: -kb [user_name]/[keyboard_name]
+        run: qmk compile -kb ${{ github.actor }}/${{ matrix.keyboard_folder }} -km vial
 
       - name: Archive firmware artifact
-        uses: actions/upload-artifact@v4 # Use latest upload action
+        uses: actions/upload-artifact@v4
         with:
-          name: firmware-${{ github.actor }} # Names the artifact based on your username
-          path: | # Uploads any of these file types if they exist
+          name: firmware-${{ matrix.keyboard_folder }}-${{ github.actor }}
+          path: |
             *.uf2
             *.bin
             *.hex
-          if-no-files-found: error # Fail the workflow if no firmware file is produced
+          if-no-files-found: error
