@@ -1,6 +1,6 @@
 {
   "manufacturer": "Umang",
-  "keyboard_name": "Umang_Macropad",
+  "keyboard_name": "Admin_pad",
   "maintainer": "Umang5848", // Your GitHub username
   "processor": "RP2040",
   "bootloader": "rp2040",
