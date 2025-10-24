@@ -1,0 +1,41 @@
+{
+  "manufacturer": "Umang",
+  "keyboard_name": "Umang_Macropad",
+  "maintainer": "Umang5848", // Replace with your actual username
+  "processor": "RP2040",
+  "bootloader": "rp2040",
+  "matrix_pins": {
+    "rows": ["B1", "B2"], // Placeholder - MUST MATCH config.h
+    "cols": ["B3", "B4", "C0", "C1"] // Placeholder - MUST MATCH config.h
+  },
+  "diode_direction": "COL2ROW",
+  "usb": {
+    "vid": "0xFEED", // Placeholder - MUST MATCH config.h
+    "pid": "0x0001", // Placeholder - MUST MATCH config.h
+    "device_version": "0.0.1"
+  },
+  "layouts": {
+    "LAYOUT": { // This name MUST match LAYOUTS in rules.mk and the LAYOUT macro in keymap.c
+      "layout": [
+        // Define the physical positions for the VIAL GUI (0,0 is top-left)
+        // Each object is a key: {x: column, y: row, label: display_name}
+        {"x":0, "y":0, "label":"R1C1"}, {"x":1, "y":0, "label":"R1C2"}, {"x":2, "y":0, "label":"R1C3"}, {"x":3, "y":0, "label":"R1C4"},
+        {"x":0, "y":1, "label":"R2C1"}, {"x":1, "y":1, "label":"R2C2"}, {"x":2, "y":1, "label":"R2C3"}, {"x":3, "y":1, "label":"R2C4"}
+        // Optional: Add encoder position for GUI visual only (doesn't affect function)
+        // , {"x":4, "y":0.5, "label":"Enc1", "encoder": true}
+      ]
+    }
+  },
+  "features": {
+        "bootmagic": false,
+        "command": false,
+        "console": false,
+        "extrakey": true, // Needed for media keys
+        "mousekey": false,
+        "nkro": true
+    },
+   "vial": {
+       "uid": "0xA0B1C2D3E4F50001", // Placeholder - MUST MATCH config.h
+       "unlock_combo": [[0,0], [0,3]] // Row 0/Col 0 (top-left) + Row 0/Col 3 (top-right)
+    }
+}
