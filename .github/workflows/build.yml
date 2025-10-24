@@ -1,0 +1,41 @@
+name: Build Firmware
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/qmk/qmk_cli
+    strategy:
+      matrix:
+        # Define the path to your keyboard within the 'keyboards' directory structure QMK expects
+        # Since your files are in the root of YOUR repo, checked out to 'users/YourUsername',
+        # the path QMK needs is 'users/YourUsername'.
+        keyboard: [users/${{ github.actor }}] # Uses your GitHub username automatically
+
+    steps:
+      - name: Checkout QMK Firmware
+        uses: actions/checkout@v4 # Use latest checkout action
+        with:
+          repository: qmk/qmk_firmware
+          submodules: recursive
+
+      - name: Checkout userspace (Your Repo)
+        uses: actions/checkout@v4 # Use latest checkout action
+        with:
+          path: users/${{ github.actor }} # Checks out your repo into the correct 'users' subdirectory
+
+      - name: Build firmware with VIAL
+        # The '-kb' path tells QMK where to find your config.h, rules.mk etc.
+        # The '-km vial' tells QMK to build the VIAL-enabled keymap.
+        run: qmk compile -kb ${{ matrix.keyboard }} -km vial
+
+      - name: Archive firmware artifact
+        uses: actions/upload-artifact@v4 # Use latest upload action
+        with:
+          name: firmware-${{ github.actor }} # Names the artifact based on your username
+          path: | # Uploads any of these file types if they exist
+            *.uf2
+            *.bin
+            *.hex
+          if-no-files-found: error # Fail the workflow if no firmware file is produced
